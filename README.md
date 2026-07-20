@@ -9,7 +9,7 @@ The repository contains three main files. Each file is briefly described below.
 
 * Final protein abundance dataset used for analysis.
 
-### **`analysis.md`** 
+### **`analysis.txt`** 
 * Major functions and processing code used for analysis.
 
 ### **`workflows.md`** 

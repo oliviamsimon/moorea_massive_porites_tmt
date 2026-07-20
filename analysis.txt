@@ -1,0 +1,60 @@
+TOBIT MODEL
+> require('VGAM')
+> # For any protein_name
+> protein_name_tobit <- vglm(log2_abun ~ Treatment, tobit(Lower = 2.574694), data = protein_name_tob_dat)
+>    protein_name_tob_ctable <- coef(summary(protein_name_tob))
+>    protein_name_tob_pvals <- 2 * pt(abs(protein_name_tob_ctable[, "z value"]), 
+>                                df.residual(protein_name_tob), 
+>                                lower.tail = FALSE)
+ 
+MODEL FITTING
+> fit_models <- function(data) {
+>   models <- list(
+>     linear = lm(log2_abun ~ Treatment, data = data),
+>     quadratic = lm(log2_abun ~ poly(Treatment, 2, raw = TRUE), data = data),
+>     cubic = lm(log2_abun ~ poly(Treatment, 3, raw = TRUE), data = data)
+>   )
+>   results <- lapply(names(models), function(model_name) {
+>     model <- models[[model_name]]
+>     if (is.null(model)) return(NULL)    
+>     data.frame(
+>       model_type = model_name,
+>       r_squared = summary(model)$r.squared,
+>       adj_r_squared = summary(model)$adj.r.squared,
+>       AIC = AIC(model),
+>       residual_se = summary(model)$sigma
+>     )
+>   })
+>   do.call(rbind, results[!sapply(results, is.null)])
+> }
+>
+> # Predict from best model
+> predict_best_model <- function(data, model_type) {
+>   treatment_seq <- seq(min(data$treatment_num), max(data$treatment_num), length.out = 100)
+>   pred_data <- data.frame(treatment_num = treatment_seq)
+>   if (model_type == "linear") {
+>     model <- lm(log2_abun ~ treatment_num, data = data)
+>     pred_data$predicted <- predict(model, newdata = pred_data)
+>   } else if (model_type == "quadratic") {
+>     model <- lm(log2_abun ~ poly(treatment_num, 2, raw = TRUE), data = data)
+>     pred_data$predicted <- predict(model, newdata = pred_data)
+>   } else if (model_type == "cubic") {
+>     model <- lm(log2_abun ~ poly(treatment_num, 3, raw = TRUE), data = data)
+>     pred_data$predicted <- predict(model, newdata = pred_data)
+>   } 
+>   pred_data
+> }
+
+NMDS
+> require('vegan')
+> nmds_protein_cols <- c("sporozoite", "mucin", "usomp8", "coadhesin", "ca13", 
+>                         "saarp2", "saarp1", "egf_lamg")
+> nmds_protein_data <- prot_nmds_data[, nmds_protein_cols]
+> set.seed(123)
+> nmds_result <- metaMDS(nmds_protein_data,
+>                        distance = "bray",
+>                        k = 2,
+>                        trymax = 100,
+>                        autotransform = FALSE,
+>                        trace = 1)
+> env_fit <- envfit(nmds_result, nmds_protein_data, permutations = 999)
