@@ -3,7 +3,7 @@ This is a project repository for Simon et al. 'Quantitative proteomics reveals a
 
 ## Layout
 
-The repository contains three main files. Each file is briefly described below. 
+The repository contains three main files. Each file is briefly described below. Other data (.raw/mgf files, Proteome Discoverer output) are available in the PRIDE repository of the ProteomeXchange Consortium under file number REPOSITORYNUMBER
 
 ### **`data.csv`** 
 
