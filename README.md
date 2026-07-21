@@ -1,5 +1,5 @@
 ## Overview
-This is a project repository for Simon et al. Quantitative proteomics reveals a possible mechanism by which Porites spp. achieves homeostatic calcification under acidified conditions. 
+This is a project repository for Simon et al. 'Quantitative proteomics reveals a possible mechanism by which Porites spp. achieves homeostatic calcification under acidified conditions' 
 
 ## Layout
 
