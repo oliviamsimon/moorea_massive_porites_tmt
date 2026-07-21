@@ -5,9 +5,10 @@ This is a project repository for Simon et al. Quantitative proteomics reveals a 
 
 The repository contains three main files. Each file is briefly described below. 
 
-### **`data.md`** 
+### **`data.csv`** 
 
 * Final protein abundance dataset used for analysis.
+* Protein abundance values are log2 transformed, missing abundance values replaced by 1/2 of the minimum abundance value
 
 ### **`analysis.txt`** 
 * Major functions and processing code used for analysis.
